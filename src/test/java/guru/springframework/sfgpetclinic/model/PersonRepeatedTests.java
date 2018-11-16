@@ -1,10 +1,11 @@
 package guru.springframework.sfgpetclinic.model;
 
-import guru.springframework.sfgpetclinic.ModelRepeatedTests;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.RepeatedTest;
 import org.junit.jupiter.api.RepetitionInfo;
 import org.junit.jupiter.api.TestInfo;
+
+import guru.springframework.sfgpetclinic.ModelRepeatedTests;
 
 /**
  * Created by jt on 2018-10-28.

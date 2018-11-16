@@ -1,11 +1,11 @@
 package guru.springframework.sfgpetclinic.junitextensions;
 
+import java.lang.reflect.Method;
+import java.util.logging.Logger;
+
 import org.junit.jupiter.api.extension.AfterTestExecutionCallback;
 import org.junit.jupiter.api.extension.BeforeTestExecutionCallback;
 import org.junit.jupiter.api.extension.ExtensionContext;
-
-import java.lang.reflect.Method;
-import java.util.logging.Logger;
 
 /**
  * Original source - https://junit.org/junit5/docs/current/user-guide/#extensions-lifecycle-callbacks-timing-extension
