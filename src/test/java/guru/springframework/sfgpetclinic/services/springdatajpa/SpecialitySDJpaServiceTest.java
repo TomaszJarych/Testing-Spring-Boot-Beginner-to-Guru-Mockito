@@ -3,6 +3,8 @@ package guru.springframework.sfgpetclinic.services.springdatajpa;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.atLeastOnce;
 import static org.mockito.Mockito.atMost;
 import static org.mockito.Mockito.never;
@@ -16,12 +18,10 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import guru.springframework.sfgpetclinic.model.Speciality;
 import guru.springframework.sfgpetclinic.repositories.SpecialtyRepository;
-import guru.springframework.sfgpetclinic.services.SpecialtyService;
 
 @ExtendWith(MockitoExtension.class)
 class SpecialitySDJpaServiceTest {
@@ -83,10 +83,19 @@ class SpecialitySDJpaServiceTest {
 
 		assertNotNull(actualSpecialty);
 		assertEquals(specialityStub, actualSpecialty);
-		verify(specialtyRepository).findById(1L);
+		verify(specialtyRepository).findById(anyLong());
 		
 		// AssertJ
 		assertThat(actualSpecialty).isNotNull().isEqualTo(specialityStub);
 	}
+	
+	@Test
+	void testDeleteByObject() {
+		Speciality specialityStub = new Speciality();
+		
+		service.delete(specialityStub);
+		
+		verify(specialtyRepository).delete(any(Speciality.class));
+		}
 
 }
