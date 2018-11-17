@@ -24,8 +24,6 @@ class SpecialitySDJpaServiceTest {
 	@InjectMocks
 	private SpecialitySDJpaService service;
 
-
-
 	@Test
 	void deleteById() {
 		service.deleteById(1L);
@@ -33,7 +31,7 @@ class SpecialitySDJpaServiceTest {
 
 		verify(specialtyRepository, times(2)).deleteById(1L);
 	}
-	
+
 	@Test
 	void deleteByIdAtLeast() {
 		service.deleteById(1L);
@@ -41,7 +39,7 @@ class SpecialitySDJpaServiceTest {
 
 		verify(specialtyRepository, atLeastOnce()).deleteById(1L);
 	}
-	
+
 	@Test
 	void deleteByIdAtMost() {
 		service.deleteById(1L);
@@ -49,7 +47,7 @@ class SpecialitySDJpaServiceTest {
 
 		verify(specialtyRepository, atMost(5)).deleteById(1L);
 	}
-	
+
 	@Test
 	void deleteByIdNever() {
 		service.deleteById(1L);
@@ -63,7 +61,7 @@ class SpecialitySDJpaServiceTest {
 	void deleteObject() {
 		Speciality speciality = new Speciality();
 		service.delete(speciality);
-		
+
 		verify(specialtyRepository).delete(speciality);
 	}
 

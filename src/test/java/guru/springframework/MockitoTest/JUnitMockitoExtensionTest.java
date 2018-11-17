@@ -18,5 +18,4 @@ public class JUnitMockitoExtensionTest {
 		mapMock.put("keyvalue", "foo");
 	}
 
-
 }

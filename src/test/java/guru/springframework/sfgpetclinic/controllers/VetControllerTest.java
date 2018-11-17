@@ -18,35 +18,35 @@ import guru.springframework.sfgpetclinic.services.map.VetMapService;
 
 class VetControllerTest implements ControllerTests {
 
-    VetService vetService;
-    SpecialtyService specialtyService;
+	VetService vetService;
+	SpecialtyService specialtyService;
 
-    VetController vetController;
+	VetController vetController;
 
-    @BeforeEach
-    void setUp() {
-        specialtyService = new SpecialityMapService();
-        vetService = new VetMapService(specialtyService);
+	@BeforeEach
+	void setUp() {
+		specialtyService = new SpecialityMapService();
+		vetService = new VetMapService(specialtyService);
 
-        vetController = new VetController(vetService);
+		vetController = new VetController(vetService);
 
-        Vet vet1 = new Vet(1L, "joe", "buck", null);
-        Vet vet2 = new Vet(2L, "Jimmy", "Smith", null);
+		Vet vet1 = new Vet(1L, "joe", "buck", null);
+		Vet vet2 = new Vet(2L, "Jimmy", "Smith", null);
 
-        vetService.save(vet1);
-        vetService.save(vet2);
-    }
+		vetService.save(vet1);
+		vetService.save(vet2);
+	}
 
-    @Test
-    void listVets() {
-        Model model = new ModelMapImpl();
+	@Test
+	void listVets() {
+		Model model = new ModelMapImpl();
 
-        String view = vetController.listVets(model);
+		String view = vetController.listVets(model);
 
-        assertThat("vets/index").isEqualTo(view);
+		assertThat("vets/index").isEqualTo(view);
 
-        Set modelAttribute = (Set) ((ModelMapImpl) model).getMap().get("vets");
+		Set modelAttribute = (Set) ((ModelMapImpl) model).getMap().get("vets");
 
-        assertThat(modelAttribute.size()).isEqualTo(2);
-    }
+		assertThat(modelAttribute.size()).isEqualTo(2);
+	}
 }

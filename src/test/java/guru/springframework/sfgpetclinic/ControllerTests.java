@@ -11,8 +11,8 @@ import org.junit.jupiter.api.TestInstance;
 @Tag("controllers")
 public interface ControllerTests {
 
-    @BeforeAll
-    default void beforeAll(){
-        System.out.println("Lets do something here");
-    }
+	@BeforeAll
+	default void beforeAll() {
+		System.out.println("Lets do something here");
+	}
 }

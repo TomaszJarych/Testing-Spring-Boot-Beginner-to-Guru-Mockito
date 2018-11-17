@@ -8,12 +8,12 @@ import java.util.Map;
 import org.junit.jupiter.api.Test;
 
 public class InlineMockTest {
-	
+
 	@Test
 	void inLineMockTestMethod() {
 		Map mockMap = mock(Map.class);
 		assertEquals(0, mockMap.size());
-		
+
 	}
 
 }
