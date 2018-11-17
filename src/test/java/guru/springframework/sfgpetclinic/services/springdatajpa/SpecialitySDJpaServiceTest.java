@@ -1,6 +1,11 @@
 package guru.springframework.sfgpetclinic.services.springdatajpa;
 
-import org.junit.jupiter.api.BeforeEach;
+import static org.mockito.Mockito.atLeastOnce;
+import static org.mockito.Mockito.atMost;
+import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -19,18 +24,47 @@ class SpecialitySDJpaServiceTest {
 	@InjectMocks
 	private SpecialitySDJpaService service;
 
-	@BeforeEach
-	void setUp() throws Exception {
-	}
+
 
 	@Test
 	void deleteById() {
 		service.deleteById(1L);
+		service.deleteById(1L);
+
+		verify(specialtyRepository, times(2)).deleteById(1L);
+	}
+	
+	@Test
+	void deleteByIdAtLeast() {
+		service.deleteById(1L);
+		service.deleteById(1L);
+
+		verify(specialtyRepository, atLeastOnce()).deleteById(1L);
+	}
+	
+	@Test
+	void deleteByIdAtMost() {
+		service.deleteById(1L);
+		service.deleteById(1L);
+
+		verify(specialtyRepository, atMost(5)).deleteById(1L);
+	}
+	
+	@Test
+	void deleteByIdNever() {
+		service.deleteById(1L);
+		service.deleteById(1L);
+
+		verify(specialtyRepository, atLeastOnce()).deleteById(1L);
+		verify(specialtyRepository, never()).deleteById(5L);
 	}
 
 	@Test
 	void deleteObject() {
-		service.delete(new Speciality());
+		Speciality speciality = new Speciality();
+		service.delete(speciality);
+		
+		verify(specialtyRepository).delete(speciality);
 	}
 
 }
