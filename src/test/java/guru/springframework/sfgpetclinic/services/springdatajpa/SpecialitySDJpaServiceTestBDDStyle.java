@@ -11,15 +11,13 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.Optional;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
-class SpecialitySDJpaServiceTest {
+class SpecialitySDJpaServiceTestBDDStyle {
 
     @Mock
     private SpecialtyRepository specialtyRepository;
@@ -29,68 +27,63 @@ class SpecialitySDJpaServiceTest {
 
     @Test
     void deleteById() {
+        //given - none
+
+        //when
         service.deleteById(1L);
         service.deleteById(1L);
 
-        verify(specialtyRepository, times(2)).deleteById(1L);
+        //then
+        BDDMockito.then(specialtyRepository).should(times(2)).deleteById(1L);
     }
 
     @Test
     void deleteByIdAtLeast() {
+        //given - none
+
+        //when
         service.deleteById(1L);
         service.deleteById(1L);
 
-        verify(specialtyRepository, atLeastOnce()).deleteById(1L);
+        //then
+        BDDMockito.then(specialtyRepository).should(atLeastOnce()).deleteById(1L);
     }
 
     @Test
     void deleteByIdAtMost() {
+        //given - none, we can omit this section at all, given is optional
+
+        //when
         service.deleteById(1L);
         service.deleteById(1L);
 
-        verify(specialtyRepository, atMost(5)).deleteById(1L);
+        //then
+        BDDMockito.then(specialtyRepository).should(atMost(4)).deleteById(1L);
     }
 
     @Test
     void deleteByIdNever() {
+
+        //when
         service.deleteById(1L);
         service.deleteById(1L);
 
-        verify(specialtyRepository, atLeastOnce()).deleteById(1L);
-        verify(specialtyRepository, never()).deleteById(5L);
+        //then
+        BDDMockito.then(specialtyRepository).should(atLeastOnce()).deleteById(1L);
+        BDDMockito.then(specialtyRepository).should(never()).deleteById(2L);
     }
 
-    @Test
-    void deleteObject() {
-        Speciality speciality = new Speciality();
-        service.delete(speciality);
-
-        verify(specialtyRepository).delete(speciality);
-    }
-
-    @Test
-    void findById() {
-        Speciality specialityStub = new Speciality();
-
-        when(specialtyRepository.findById(1L)).thenReturn(Optional.of(specialityStub));
-
-        Speciality actualSpecialty = service.findById(1L);
-
-        assertNotNull(actualSpecialty);
-        assertEquals(specialityStub, actualSpecialty);
-        verify(specialtyRepository).findById(anyLong());
-
-        // AssertJ
-        assertThat(actualSpecialty).isNotNull().isEqualTo(specialityStub);
-    }
 
     @Test
     void testDeleteByObject() {
+        //given
         Speciality specialityStub = new Speciality();
 
+        //when
         service.delete(specialityStub);
 
-        verify(specialtyRepository).delete(any(Speciality.class));
+        //then
+        BDDMockito.then(specialtyRepository).should().delete(any(Speciality.class));
     }
 
     // BDD Mockito

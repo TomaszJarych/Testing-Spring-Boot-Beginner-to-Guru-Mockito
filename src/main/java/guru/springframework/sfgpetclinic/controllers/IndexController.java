@@ -2,7 +2,7 @@ package guru.springframework.sfgpetclinic.controllers;
 
 public class IndexController {
 
-    public String index(){
+    public String index() {
         return "index";
     }
 

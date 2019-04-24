@@ -5,7 +5,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 
-public class Pet extends BaseEntity{
+public class Pet extends BaseEntity {
 
     private String name;
     private PetType petType;
