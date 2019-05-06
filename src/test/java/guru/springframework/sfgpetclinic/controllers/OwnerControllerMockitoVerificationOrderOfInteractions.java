@@ -8,10 +8,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.ArgumentCaptor;
-import org.mockito.Captor;
-import org.mockito.InOrder;
-import org.mockito.Mock;
+import org.mockito.*;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.ArrayList;
@@ -21,7 +18,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.anyList;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.BDDMockito.given;
-import static org.mockito.Mockito.inOrder;
+import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 class OwnerControllerMockitoVerificationOrderOfInteractions {
@@ -83,5 +80,41 @@ class OwnerControllerMockitoVerificationOrderOfInteractions {
         //inOrderAssertions
         order.verify(ownerService).findAllByLastNameLike(anyString());
         order.verify(model).addAttribute(anyString(), anyList());
+
+        //verify no more interactions with model
+        verifyNoMoreInteractions(model);
+    }
+
+    @Test
+    void processFindFromWildcardStringArgumentCaptorAnnotation() {
+        //given
+        Owner owner = new Owner(1L, "Joe", "Buck");
+
+        //when
+        String viewName = controller.processFindForm(owner, bindingResult, null);
+
+        //then
+
+        assertThat("%Buck%").isEqualToIgnoringCase(annotatedArgumentCaptor.getValue());
+        assertThat("redirect:/owners/1").isEqualToIgnoringCase(viewName);
+
+        //verify no interactions with model
+        verifyZeroInteractions(model);
+    }
+
+    @Test
+    void processFindFromWildcardNotFound() {
+        //given
+        Owner owner = new Owner(1L, "Joe", "DontFindMe");
+
+        //when
+        String viewName = controller.processFindForm(owner, bindingResult, Mockito.mock(Model.class));
+
+        //then
+
+        assertThat("%DontFindMe%").isEqualToIgnoringCase(annotatedArgumentCaptor.getValue());
+        assertThat("owners/findOwners").isEqualToIgnoringCase(viewName);
+        //verify no interactions with model
+        verifyZeroInteractions(model);
     }
 }
